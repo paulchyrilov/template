@@ -30,16 +30,20 @@ return array(
             'ipFilters' => array('127.0.0.1', '::1'),
         ),
         'user' => array(
-            'defaultController' => 'user',
-            'tableUsers'          => 'users',
-            'tableProfiles'       => 'profiles',
-            'tableProfileFields'  => 'profiles_fields',
+            'defaultController'     => 'profile',
+            'tableUsers'            => 'users',
+            'tableProfiles'         => 'profiles',
+            'tableProfileFields'    => 'profiles_fields',
         ),
     ),
     // application components
     'components' => array(
         'urlManager' => require($dirname . '/url_manager.php'),
         'db'         => require($dirname . '/database.php'),
+        'authManager' => array(
+            'class'        => 'PhpAuthManager',
+            'defaultRoles' => array('guest')
+        ),
         'user'=>array(
             // enable cookie-based authentication
             'class' => 'WebUser',

@@ -2,10 +2,22 @@
 
 class WebUser extends CWebUser
 {
+    
+    private $_model = null;
 
-    public function getRole()
-    {
-        return $this->getState('__role');
+    function getRole() {
+        if($user = $this->getModel()){
+            return ($user->superuser) ? User::ROLE_ADMIN : User::ROLE_USER;
+        } else {
+            return User::ROLE_GUEST;
+        }
+    }
+    
+    public function getModel(){
+        if (!$this->isGuest && $this->_model === null){
+            $this->_model = User::model()->with('profile')->findByPk($this->id, array('select' => 'id, superuser, username'));
+        }
+        return $this->_model;
     }
     
     public function getId()

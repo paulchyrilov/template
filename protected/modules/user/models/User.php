@@ -5,6 +5,9 @@ class User extends CActiveRecord
 	const STATUS_NOACTIVE=0;
 	const STATUS_ACTIVE=1;
 	const STATUS_BANNED=-1;
+    const ROLE_ADMIN = 'admin';
+    const ROLE_USER = 'user';
+    const ROLE_GUEST = 'guest';
 	
 	//TODO: Delete for next version (backward compatibility)
 	const STATUS_BANED=-1;
