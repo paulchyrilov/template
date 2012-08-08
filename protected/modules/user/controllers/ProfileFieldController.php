@@ -10,6 +10,12 @@ class ProfileFieldController extends Controller
 	private static $_widgets = array();
 	public $defaultAction = 'admin';
 	public $layout='//layouts/column2';
+    
+    public function init()
+    {
+        parent::init();
+        Yii::app()->setTheme('bootstrap');
+    }
 
 	/**
 	 * @return array action filters

@@ -2,10 +2,16 @@
 
 class AdminController extends Controller
 {
-
+    
     public $defaultAction = 'admin';
     public $layout = '//layouts/column2';
     private $_model;
+    
+    public function init()
+    {
+        parent::init();
+        Yii::app()->setTheme('bootstrap');
+    }
 
     /**
      * @return array action filters

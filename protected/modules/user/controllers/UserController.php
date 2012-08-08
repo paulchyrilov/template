@@ -52,6 +52,7 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
+        Yii::app()->setTheme('bootstrap');
         $dataProvider = new CActiveDataProvider('User', array(
                 'criteria' => array(
                     'condition' => 'status>' . User::STATUS_BANNED,

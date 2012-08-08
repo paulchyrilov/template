@@ -11,6 +11,7 @@ return array(
     // preloading 'log' component
     'preload' => array(
         'log',
+        'bootstrap',
     ),
     // autoloading model and component classes
     'import' => array(
@@ -30,7 +31,7 @@ return array(
             'ipFilters' => array('127.0.0.1', '::1'),
         ),
         'user' => array(
-            'defaultController'     => 'profile',
+            'defaultController'     => 'user',
             'tableUsers'            => 'users',
             'tableProfiles'         => 'profiles',
             'tableProfileFields'    => 'profiles_fields',
@@ -40,6 +41,10 @@ return array(
     'components' => array(
         'urlManager' => require($dirname . '/url_manager.php'),
         'db'         => require($dirname . '/database.php'),
+        'bootstrap' => array(
+            'class' => 'ext.bootstrap.components.Bootstrap', // assuming you extracted bootstrap under extensions
+            'responsiveCss' => true,
+        ),
         'authManager' => array(
             'class'        => 'PhpAuthManager',
             'defaultRoles' => array('guest')
