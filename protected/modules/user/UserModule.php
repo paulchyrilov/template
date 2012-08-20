@@ -127,6 +127,7 @@ class UserModule extends CWebModule
 		$this->setImport(array(
 			'user.models.*',
 			'user.components.*',
+            'admin.models.*',
 		));
 	}
 	

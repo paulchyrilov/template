@@ -1,17 +1,13 @@
 <?php
 
-class AdminController extends Controller
+class UserController extends Controller
 {
-    
-    public $defaultAction = 'admin';
+
+    /**
+     * @var CActiveRecord the currently loaded data model instance.
+     */
     public $layout = '//layouts/column2';
     private $_model;
-    
-    public function init()
-    {
-        parent::init();
-        Yii::app()->setTheme('bootstrap');
-    }
 
     /**
      * @return array action filters
@@ -31,8 +27,8 @@ class AdminController extends Controller
     public function accessRules()
     {
         return array(
-            array('allow', // allow admin user to perform 'admin' and 'delete' actions
-                'actions' => array('admin', 'delete', 'create', 'update', 'view'),
+            array('allow',
+                'actions' => array('index', 'manage', 'delete', 'create', 'update', 'view'),
                 'roles' => array(User::ROLE_ADMIN),
             ),
             array('deny', // deny all users
@@ -42,36 +38,46 @@ class AdminController extends Controller
     }
 
     /**
-     * Manages all models.
-     */
-    public function actionAdmin()
-    {
-        $model = new User('search');
-        $model->unsetAttributes();  // clear any default values
-        if (isset($_GET['User']))
-            $model->attributes = $_GET['User'];
-
-        $this->render('index', array(
-            'model' => $model,
-        ));
-        /* $dataProvider=new CActiveDataProvider('User', array(
-          'pagination'=>array(
-          'pageSize'=>Yii::app()->controller->module->user_page_size,
-          ),
-          ));
-
-          $this->render('index',array(
-          'dataProvider'=>$dataProvider,
-          ));// */
-    }
-
-    /**
      * Displays a particular model.
      */
     public function actionView()
     {
         $model = $this->loadModel();
         $this->render('view', array(
+            'model' => $model,
+        ));
+    }
+
+    /**
+     * Lists all models.
+     */
+    public function actionIndex()
+    {
+        $dataProvider = new CActiveDataProvider('User', array(
+                'criteria' => array(
+                    'condition' => 'status>' . User::STATUS_BANNED,
+                ),
+                'pagination' => array(
+                    'pageSize' => Yii::app()->controller->module->user_page_size,
+                ),
+            ));
+
+        $this->render('index', array(
+            'dataProvider' => $dataProvider,
+        ));
+    }
+    
+    /**
+     * Manages all models.
+     */
+    public function actionManage()
+    {
+        $model = new User('search');
+        $model->unsetAttributes();  // clear any default values
+        if (isset($_GET['User']))
+            $model->attributes = $_GET['User'];
+
+        $this->render('admin', array(
             'model' => $model,
         ));
     }
@@ -87,11 +93,11 @@ class AdminController extends Controller
         $this->performAjaxValidation(array($model, $profile));
         if (isset($_POST['User'])) {
             $model->attributes = $_POST['User'];
-            $model->activkey = Yii::app()->controller->module->encrypting(microtime() . $model->password);
+            $model->activkey = Yii::app()->getModule('user')->encrypting(microtime() . $model->password);
             $profile->attributes = $_POST['Profile'];
             $profile->user_id = 0;
             if ($model->validate() && $profile->validate()) {
-                $model->password = Yii::app()->controller->module->encrypting($model->password);
+                $model->password = Yii::app()->getModule('user')->encrypting($model->password);
                 if ($model->save()) {
                     $profile->user_id = $model->id;
                     $profile->save();
@@ -123,8 +129,8 @@ class AdminController extends Controller
             if ($model->validate() && $profile->validate()) {
                 $old_password = User::model()->notsafe()->findByPk($model->id);
                 if ($old_password->password != $model->password) {
-                    $model->password = Yii::app()->controller->module->encrypting($model->password);
-                    $model->activkey = Yii::app()->controller->module->encrypting(microtime() . $model->password);
+                    $model->password = Yii::app()->getModule('user')->encrypting($model->password);
+                    $model->activkey = Yii::app()->getModule('user')->encrypting(microtime() . $model->password);
                 }
                 $model->save();
                 $profile->save();
@@ -179,7 +185,23 @@ class AdminController extends Controller
     {
         if ($this->_model === null) {
             if (isset($_GET['id']))
-                $this->_model = User::model()->notsafe()->findbyPk($_GET['id']);
+                $this->_model = User::model()->findbyPk($_GET['id']);
+            if ($this->_model === null)
+                throw new CHttpException(404, 'The requested page does not exist.');
+        }
+        return $this->_model;
+    }
+
+    /**
+     * Returns the data model based on the primary key given in the GET variable.
+     * If the data model is not found, an HTTP exception will be raised.
+     * @param integer the primary key value. Defaults to null, meaning using the 'id' GET variable
+     */
+    public function loadUser($id = null)
+    {
+        if ($this->_model === null) {
+            if ($id !== null || isset($_GET['id']))
+                $this->_model = User::model()->findbyPk($id !== null ? $id : $_GET['id']);
             if ($this->_model === null)
                 throw new CHttpException(404, 'The requested page does not exist.');
         }

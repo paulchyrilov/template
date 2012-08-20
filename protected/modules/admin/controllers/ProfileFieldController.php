@@ -14,7 +14,6 @@ class ProfileFieldController extends Controller
     public function init()
     {
         parent::init();
-        Yii::app()->setTheme('bootstrap');
     }
 
 	/**
@@ -473,19 +472,6 @@ class ProfileFieldController extends Controller
         $this->render('admin',array(
             'model'=>$model,
         ));
-		/*
-		$dataProvider=new CActiveDataProvider('ProfileField', array(
-			'pagination'=>array(
-				'pageSize'=>Yii::app()->controller->module->fields_page_size,
-			),
-			'sort'=>array(
-				'defaultOrder'=>'position',
-			),
-		));
-
-		$this->render('admin',array(
-			'dataProvider'=>$dataProvider,
-		));//*/
 	}
 
 	/**

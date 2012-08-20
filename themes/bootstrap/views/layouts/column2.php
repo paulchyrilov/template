@@ -4,15 +4,17 @@
         <?= $content; ?>
     </div>
     <div class="span2">
-        <?php
-            if(isset($this->menu)) {
-                $this->widget('bootstrap.widgets.BootMenu', array(
-                    'items'=>$this->menu,
-                    'type' => 'list',
-                    'htmlOptions'=>array('class'=>'operations'),
-                ));
-            }
-        ?>
+        <div class="well" style="padding: 8px 0;">
+            <?php
+                if(isset($this->menu)) {
+                    $this->widget('bootstrap.widgets.BootMenu', array(
+                        'items'=>$this->menu,
+                        'type' => 'list',
+                        'htmlOptions'=>array('class'=>'operations'),
+                    ));
+                }
+            ?>
+        </div>
     </div>
 </div>
 <?php $this->endContent(); ?>

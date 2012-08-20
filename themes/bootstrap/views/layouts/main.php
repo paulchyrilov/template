@@ -33,7 +33,7 @@ $baseUrl = Yii::app()->request->baseUrl;
             'fixed'    => true,
             'fluid'    => true,
             'brand'    => 'Admin Panel',
-            'brandUrl' => Yii::app()->createUrl('/user/admin'),
+            'brandUrl' => Yii::app()->createUrl('/admin'),
             'collapse' => false, // requires bootstrap-responsive.css
             'htmlOptions' => array('class' => 'navbar-fixed-top'),
             'items'    => array(

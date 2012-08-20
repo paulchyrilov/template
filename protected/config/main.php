@@ -36,6 +36,8 @@ return array(
             'tableProfiles'         => 'profiles',
             'tableProfileFields'    => 'profiles_fields',
         ),
+        'admin' => array(
+        ),
     ),
     // application components
     'components' => array(

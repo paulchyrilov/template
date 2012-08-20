@@ -4,9 +4,11 @@ $this->breadcrumbs=array(
 	UserModule::t('Manage'),
 );
 $this->menu=array(
-    array('label'=>UserModule::t('Create Profile Field'), 'url'=>array('create')),
-    array('label'=>UserModule::t('Manage Profile Field'), 'url'=>array('admin')),
-    array('label'=>UserModule::t('Manage Users'), 'url'=>array('/user/admin')),
+    array('label'=>UserModule::t('Actions'), 'header'),
+    array('label'=>UserModule::t('List User'), 'url'=>array('/admin/user')),
+    array('label'=>UserModule::t('Manage Users'), 'url'=>array('/admin/user/manage')),
+    array('label'=>UserModule::t('Manage Profile Field'), 'url'=>array('profileField/admin'), 'active' => true),
+    array('label'=>UserModule::t('Create Profile Field'), 'url'=>array('create'), 'icon' => 'empty'),
 );
 
 ?>

@@ -6,12 +6,13 @@ $this->breadcrumbs=array(
 
 
 $this->menu=array(
-    array('label'=>UserModule::t('Create User'), 'url'=>array('create')),
-    array('label'=>UserModule::t('Update User'), 'url'=>array('update','id'=>$model->id)),
-    array('label'=>UserModule::t('Delete User'), 'url'=>'#','linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>UserModule::t('Are you sure to delete this item?'))),
-    array('label'=>UserModule::t('Manage Users'), 'url'=>array('admin')),
+    array('label'=>UserModule::t('Actions'), 'header'),
+    array('label'=>UserModule::t('List User'), 'url'=>array('/admin/user')),
+    array('label'=>UserModule::t('Manage Users'), 'url'=>array('/admin/user/manage')),
+    array('label'=>UserModule::t('View User'), 'url'=>array('view','id'=>$model->id), 'icon' => 'empty', 'active' => true),
+    array('label'=>UserModule::t('Update User'), 'url'=>array('update','id'=>$model->id), 'icon' => 'empty'),
+    array('label'=>UserModule::t('Delete User'), 'url'=>'#','linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>UserModule::t('Are you sure to delete this item?')), 'icon' => 'empty'),
     array('label'=>UserModule::t('Manage Profile Field'), 'url'=>array('profileField/admin')),
-    array('label'=>UserModule::t('List User'), 'url'=>array('/user')),
 );
 ?>
 <div class="row-fluid">
